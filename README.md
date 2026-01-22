@@ -1,3 +1,3 @@
-# barhelper-kiosk-repo
-# barhelper-kiosk-repo
-# barhelper-kiosk-repo
+# Barhelper Pi Kiosk
+made for barhelper.app
+
