@@ -1,7 +1,8 @@
 # Barhelper Kiosk
 
 Barhelper Kiosk gjør en Raspberry Pi om til en dedikert kiosk som starter Barhelper automatisk i fullskjerm.
-for bruk sammen med https://www.barhelper.app/
+
+For bruk sammen med https://www.barhelper.app/
 
 ## Installer Raspberry Pi OS
 
