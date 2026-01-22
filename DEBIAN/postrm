@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+restore() {
+  p="$1"
+  if [ -f "${p}.barhelper-bak" ] && [ ! -f "$p" ]; then
+    mv "${p}.barhelper-bak" "$p" || true
+  fi
+}
+if [ "$1" = "remove" ] || [ "$1" = "purge" ]; then
+  restore /usr/share/icons/default/cursors/left_ptr
+  restore /usr/share/icons/PiXflat/cursors/left_ptr
+  restore /usr/share/icons/Adwaita/cursors/left_ptr
+fi
+exit 0

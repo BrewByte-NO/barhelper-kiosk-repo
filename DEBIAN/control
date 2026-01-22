@@ -1,0 +1,8 @@
+Package: barhelper-kiosk
+Version: 0.1
+Section: misc
+Priority: optional
+Architecture: all
+Maintainer: Barhelper <info@barhelper.app>
+Depends: bash, systemd, cage, chromium
+Description: Barhelper kiosk on Raspberry Pi OS (cage + chromium)

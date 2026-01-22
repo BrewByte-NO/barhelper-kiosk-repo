@@ -1,0 +1,62 @@
+#!/bin/sh
+set -eu
+
+log() { echo "[barhelper-kiosk] $*"; }
+
+ensure_user() {
+  if id barhelper >/dev/null 2>&1; then
+    log "User barhelper exists"
+  else
+    log "Creating user barhelper"
+    adduser --disabled-password --gecos "" barhelper
+  fi
+
+  for g in video render input audio dialout plugdev; do
+    if getent group "$g" >/dev/null 2>&1; then
+      adduser barhelper "$g" >/dev/null 2>&1 || true
+    fi
+  done
+
+  mkdir -p /home/barhelper/.config
+  chown -R barhelper:barhelper /home/barhelper/.config || true
+}
+
+disable_desktop_login() {
+  if systemctl list-unit-files | grep -q '^lightdm\.service'; then
+    log "Disabling lightdm"
+    systemctl disable --now lightdm.service >/dev/null 2>&1 || true
+  fi
+
+  log "Setting default target to multi-user.target"
+  systemctl set-default multi-user.target >/dev/null 2>&1 || true
+}
+
+setup_tty_and_service() {
+  log "Masking getty@tty1.service"
+  systemctl mask getty@tty1.service >/dev/null 2>&1 || true
+
+  log "Enabling barhelper-kiosk.service"
+  systemctl daemon-reload
+  systemctl enable --now barhelper-kiosk.service
+}
+
+hide_cursor_wayland() {
+  for p in \
+    /usr/share/icons/default/cursors/left_ptr \
+    /usr/share/icons/PiXflat/cursors/left_ptr \
+    /usr/share/icons/Adwaita/cursors/left_ptr
+  do
+    if [ -f "$p" ] && [ ! -f "${p}.barhelper-bak" ]; then
+      log "Hiding cursor by moving $p"
+      mv "$p" "${p}.barhelper-bak" || true
+    fi
+  done
+}
+
+ensure_user
+disable_desktop_login
+hide_cursor_wayland
+setup_tty_and_service
+
+log "Done. Reboot recommended."
+exit 0

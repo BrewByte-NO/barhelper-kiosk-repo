@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CONF="/etc/barhelper-kiosk.conf"
+if [ -f "$CONF" ]; then
+  # shellcheck disable=SC1090
+  . "$CONF"
+fi
+
+: "${KIOSK_URL:=about:blank}"
+: "${EXTRA_CHROMIUM_FLAGS:=}"
+: "${DISABLE_CACHE:=0}"
+
+if command -v setterm >/dev/null 2>&1; then
+  setterm -blank 0 -powerdown 0 -powersave off || true
+fi
+
+PROFILE_DIR="${HOME}/.config/barhelper-chromium"
+mkdir -p "$PROFILE_DIR"
+
+BASE_FLAGS=(
+  "--kiosk"
+  "--no-first-run"
+  "--no-default-browser-check"
+  "--disable-infobars"
+  "--disable-session-crashed-bubble"
+  "--disable-features=TranslateUI"
+  "--disable-features=MediaRouter"
+  "--autoplay-policy=no-user-gesture-required"
+  "--overscroll-history-navigation=0"
+  "--check-for-update-interval=31536000"
+  "--disable-component-update"
+  "--disable-breakpad"
+  "--disable-pinch"
+  "--disable-features=PasswordManagerOnboarding"
+  "--password-store=basic"
+  "--use-mock-keychain"
+  "--noerrdialogs"
+  "--disable-background-networking"
+  "--disable-sync"
+  "--metrics-recording-only"
+  "--disable-background-timer-throttling"
+  "--disable-renderer-backgrounding"
+  "--disable-backgrounding-occluded-windows"
+  "--disable-ipc-flooding-protection"
+  "--disable-dev-shm-usage"
+  "--enable-features=UseOzonePlatform"
+  "--ozone-platform=wayland"
+  "--user-data-dir=${PROFILE_DIR}"
+)
+
+if [ "${DISABLE_CACHE}" = "1" ]; then
+  BASE_FLAGS+=(
+    "--disk-cache-size=1"
+    "--media-cache-size=1"
+    "--aggressive-cache-discard"
+  )
+fi
+
+exec /usr/bin/cage -- /usr/bin/chromium "${BASE_FLAGS[@]}" ${EXTRA_CHROMIUM_FLAGS} "${KIOSK_URL}"
