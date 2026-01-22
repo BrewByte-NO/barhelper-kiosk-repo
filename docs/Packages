@@ -1,0 +1,14 @@
+Package: barhelper-kiosk
+Version: 0.1
+Architecture: all
+Maintainer: Barhelper <info@barhelper.app>
+Depends: bash, systemd, cage, chromium
+Filename: ./barhelper-kiosk_0.1_all.deb
+Size: 2940
+MD5sum: ac88d35e5db71e75c6388cf5a4c4221a
+SHA1: 8c930d6bb9240b0e52e5e519b21f8bb2dbb67361
+SHA256: 2d7958020da6e52561ce50c33ab0980f6486337b2e964ea065698c0b6f90dae4
+Section: misc
+Priority: optional
+Description: Barhelper kiosk on Raspberry Pi OS (cage + chromium)
+
