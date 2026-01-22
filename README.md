@@ -73,11 +73,10 @@ Tabellen under er ment å oppdateres etter hvert som du tester flere modeller og
   <thead>
     <tr>
       <th>Raspberry Pi modell</th>
-      <th>Pi OS Bookworm 64 bit</th>
-      <th>Pi OS Bookworm 32 bit</th>
-      <th>Pi OS Bullseye 64 bit</th>
-      <th>Pi OS Bullseye 32 bit</th>
-      <th>Notater</th>
+      <th>Pi OS Trixie 64 bit</th>
+      <th>Pi OS Trixie 32 bit</th>
+      <th>Pi OS Trixie Lite 64 bit</th>
+      <th>Pi OS Trixie Lite 32 bit</th>
     </tr>
   </thead>
   <tbody>
@@ -87,19 +86,9 @@ Tabellen under er ment å oppdateres etter hvert som du tester flere modeller og
       <td></td>
       <td></td>
       <td></td>
-      <td>Testet OK</td>
     </tr>
     <tr>
       <td>Pi 4B</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Pi 3B</td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
@@ -109,21 +98,11 @@ Tabellen under er ment å oppdateres etter hvert som du tester flere modeller og
       <td>Pi 3B+</td>
       <td></td>
       <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>Pi Zero 2 W</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>OK</td>
+      <td>OK</td>
     </tr>
     <tr>
       <td>Pi Zero W</td>
-      <td></td>
       <td></td>
       <td></td>
       <td></td>
