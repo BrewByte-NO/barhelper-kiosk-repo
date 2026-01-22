@@ -1,36 +1,36 @@
 # Barhelper Kiosk
 
-Barhelper Kiosk gjør en Raspberry Pi om til en dedikert kiosk som starter Barhelper automatisk i fullskjerm.
+Barhelper Kiosk turns a Raspberry Pi into a dedicated kiosk that launches Barhelper automatically in fullscreen.
 
-For bruk sammen med https://www.barhelper.app/
+For use with https://www.barhelper.app/
 
-## Installer Raspberry Pi OS
+## Install Raspberry Pi OS
 
-Den enkleste og offisielle måten er å bruke Raspberry Pi Imager.
+The easiest and official way is to use Raspberry Pi Imager.
 
 Raspberry Pi Imager  
 https://www.raspberrypi.com/software/
 
-Offisiell dokumentasjon, Getting started  
+Official documentation, Getting started  
 https://www.raspberrypi.com/documentation/computers/getting-started.html
 
-Kort versjon
-1. Installer Raspberry Pi Imager på PC eller Mac
-2. Velg Raspberry Pi modell, Raspberry Pi OS og lagringskort
-3. Skriv image til SD kort eller SSD
-4. Boot Pi og fullfør første oppsett
+Short version
+1. Install Raspberry Pi Imager on your PC or Mac
+2. Select your Raspberry Pi model, Raspberry Pi OS, and storage device
+3. Write the image to an SD card or SSD
+4. Boot the Pi and complete the initial setup
 
 Tips  
-På Pi 3+ anbefales Raspberry Pi OS 64 bit.
-På Pi 4 og Pi 5 anbefales Raspberry Pi OS 64 bit.
+On Pi 3+ we recommend Raspberry Pi OS 64 bit.  
+On Pi 4 and Pi 5 we recommend Raspberry Pi OS 64 bit.
 
-## Installer Barhelper Kiosk
+## Install Barhelper Kiosk
 
-Dette er laget for copy paste i terminal.
+Made for copy paste in a terminal.
 
-### Steg 1 Oppdater systemet
+### Step 1 Update the system
 
-Kjør dette først
+Run this first
 
 ~~~bash
 sudo apt update
@@ -38,9 +38,9 @@ sudo apt full-upgrade -y
 sudo reboot
 ~~~
 
-### Steg 2 Alternativ A, enklest, uten signering
+### Step 2 Option A, easiest, unsigned
 
-Når Pi har startet på nytt, kjør dette
+After the Pi has rebooted, run this
 
 ~~~bash
 echo "deb [trusted=yes] https://brewbyte-no.github.io/barhelper-kiosk-repo/ ./" | sudo tee /etc/apt/sources.list.d/barhelper-kiosk.list
@@ -49,32 +49,32 @@ sudo apt install -y barhelper-kiosk
 sudo reboot
 ~~~
 
-## Oppdatering
+## Updates
 
-For å oppdatere kjør følgende kode
+To update, run the following commands
 
 ~~~bash
 sudo apt update
 sudo apt upgrade
 ~~~
 
-## Avinstallering
+## Uninstall
 
-Om du ønsker å avinstallere
+If you want to uninstall
 
 ~~~bash
 sudo apt remove barhelper-kiosk
 sudo apt autoremove
 ~~~
 
-## Testmatrise
+## Test matrix
 
-Tabellen under er ment å oppdateres etter hvert som du tester flere modeller og OS varianter.
+The table below is meant to be updated as you test more models and OS variants.
 
 <table>
   <thead>
     <tr>
-      <th>Raspberry Pi modell</th>
+      <th>Raspberry Pi model</th>
       <th>Pi OS Trixie 64 bit</th>
       <th>Pi OS Trixie 32 bit</th>
       <th>Pi OS Trixie Lite 64 bit</th>
@@ -113,35 +113,31 @@ Tabellen under er ment å oppdateres etter hvert som du tester flere modeller og
   </tbody>
 </table>
 
+## Common issues and troubleshooting
 
+### 1 APT cannot find the package
 
-
-
-## Vanlige problemer og feilsøking
-
-### 1 APT finner ikke pakken
-
-Sjekk at repoet ligger inne
+Check that the repo is configured
 
 ~~~bash
 cat /etc/apt/sources.list.d/barhelper-kiosk.list
 ~~~
 
-Oppdater pakkelister og se om apt kjenner igjen pakken
+Update package lists and verify that apt can see the package
 
 ~~~bash
 sudo apt update
 apt-cache policy barhelper-kiosk
 ~~~
 
-Hvis `apt-cache policy` ikke viser repoet ditt, er det nesten alltid en av disse
-1 Repo URL er feil
-2 GitHub Pages er ikke aktivert på repoet
-3 `Packages` eller `Packages.gz` mangler i repoet
+If `apt-cache policy` does not show your repo, it is usually one of these
+1 The repo URL is wrong
+2 GitHub Pages is not enabled for the repo
+3 `Packages` or `Packages.gz` is missing in the repo
 
-### 2 Install feiler på dependencies
+### 2 Install fails due to dependencies
 
-Prøv dette
+Try this
 
 ~~~bash
 sudo apt update
@@ -149,41 +145,41 @@ sudo apt -f install
 sudo apt install -y barhelper-kiosk
 ~~~
 
-### 3 Kiosk starter ikke etter reboot
+### 3 Kiosk does not start after reboot
 
-Det kommer an på hvordan kiosk startes hos deg. Her er de vanligste sjekkene.
+It depends on how the kiosk is started on your system. These are the most common checks.
 
-Sjekk om det finnes en systemd tjeneste
+Check if a systemd service exists
 
 ~~~bash
 systemctl list-unit-files | grep -i barhelper || true
 systemctl status barhelper-kiosk --no-pager || true
 ~~~
 
-Se logger hvis du har en tjeneste
+View logs if you have a service
 
 ~~~bash
 journalctl -u barhelper-kiosk -b --no-pager || true
 ~~~
 
-Hvis du ikke har en systemd tjeneste, er kiosk ofte startet via autostart. Da er det lurt å sjekke om riktig desktop session er aktiv.
+If you do not have a systemd service, the kiosk is often started via autostart. In that case it can help to check which desktop session is active.
 
 ~~~bash
 echo $XDG_SESSION_TYPE
 ~~~
 
-### 4 Skjerm er svart eller bare wallpaper
+### 4 Black screen or only wallpaper
 
-Sjekk om display manager og grafisk miljø kjører
+Check if a display manager and graphical environment are running
 
 ~~~bash
 systemctl status display-manager --no-pager || true
 ps aux | egrep 'wayfire|labwc|openbox|chromium|weston' | grep -v egrep || true
 ~~~
 
-### 5 Nettverk virker ikke
+### 5 Network does not work
 
-Sjekk IP og at du har DNS
+Check your IP and DNS
 
 ~~~bash
 ip a
@@ -191,7 +187,7 @@ ping -c 1 1.1.1.1
 ping -c 1 google.com
 ~~~
 
-### 6 Hente versjon og info om den installerte pakken
+### 6 Get version and package info
 
 ~~~bash
 dpkg -s barhelper-kiosk | sed -n '1,60p'
