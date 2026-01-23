@@ -93,7 +93,7 @@ The table below is meant to be updated as you test more models and OS variants.
       <td>Pi 4B</td>
       <td></td>
       <td></td>
-      <td></td>
+      <td>OK</td>
       <td></td>
     </tr>
     <tr>
